@@ -29,6 +29,18 @@ with collision avoidance, logical and thematic classifications, and
 on-the-fly projection of raster and vector data. The application can
 also access other WMS servers as a cascading map server.
 
+%description -l pl
+MapServer to narzêdzie do tworzenia aplikacji z mapami dostêpnymi
+przez WWW bazuj±cych na CGI. Przetwarza zdefiniowane przez u¿ytkownika
+pliki konfiguracyjne i wzorce, pozwalaj±c na tworzenie du¿ego zakresu
+aplikacji, w tym interaktywne mapy oraz definicje i przetwarzanie
+zapytañ przestrzennych. Obs³uguje kilka formatów danych. Podstawowe
+mo¿liwo¶ci to renderowanie map w zale¿no¶ci od skali, automatyczny
+suwak skaluj±cy i tworzenie legendy, nanoszenie nazw z unikaniem
+kolizji, klasyfikacja logiczna i tematyczna oraz tworzone w locie
+rzuty danych rastrowych i wektorowych. Aplikacja mo¿e tak¿e korzystaæ
+z innych serwerów WMS jako kaskadowy serwer map.
+
 %prep
 %setup -q -n %{name}_%{version}
 
@@ -45,12 +57,10 @@ fi
 %install
 rm -rf $RPM_BUILD_ROOT
 
-gzip -9nf README
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz */*.gz
+%doc README */*.gz
 %attr(755,root,root) %{_bindir}/*
