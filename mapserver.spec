@@ -3,7 +3,7 @@ Summary:	Web-enabled mapping application development
 Summary(pl):	Generowanie map poprzez www
 Name:		mapserver
 Version:	3.6.4
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Applications
 Source0:	http://mapserver.gis.umn.edu/dist/%{name}-%{version}.tar.gz
@@ -116,7 +116,8 @@ fi
 %{__make} REGEX_OBJ=
 
 cd mapscript/perl
-perl Makefile.PL
+%{__perl} Makefile.PL \
+	INSTALLDIRS=vendor
 %{__make} \
 	OPTIMIZE="%{rpmcflags}"
 
@@ -172,11 +173,11 @@ fi
 %files -n perl-mapscript
 %defattr(644,root,root,755)
 %doc mapscript/perl/examples/*.pl
-%{perl_sitearch}/mapscript.pm
-%dir %{perl_sitearch}/auto/mapscript
-%{perl_sitearch}/auto/mapscript/mapscript.bs
+%{perl_vendorarch}/mapscript.pm
+%dir %{perl_vendorarch}/auto/mapscript
+%{perl_vendorarch}/auto/mapscript/mapscript.bs
 %{perl_archlib}/perllocal.pod
-%attr(755,root,root) %{perl_sitearch}/auto/mapscript/mapscript.so
+%attr(755,root,root) %{perl_vendorarch}/auto/mapscript/mapscript.so
 
 %files -n php-mapscript
 %defattr(644,root,root,755)
