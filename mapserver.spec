@@ -2,11 +2,11 @@
 Summary:	Web-enabled mapping application development
 Summary(pl):	Generowanie map poprzez www
 Name:		mapserver
-Version:	3.5
+Version:	3.6.0
 Release:	1
 License:	BSD-like
 Group:		Applications
-Source0:	http://mapserver.gis.umn.edu/dist/ms_%{version}.tar.gz
+Source0:	http://mapserver.gis.umn.edu/dist/%{name}-%{version}.tar.gz
 Patch0:		%{name}-php.patch
 URL:		http://mapserver.gis.umn.edu/
 BuildRequires:	apache-devel < 2.0.0
@@ -76,7 +76,7 @@ Modu³ perla MapScript.
 Summary:	MapScript module for PHP
 Summary(pl):	Modu³ MapScript dla PHP
 Group:		Libraries
-%requires_eq	php-common
+PreReq:		php-common = %(rpm -q --qf '%%{EPOCH}:%%{VERSION}' php-common)
 
 %description -n php-mapscript
 MapScript extension module for PHP.
@@ -96,7 +96,7 @@ Tcl MapScript module.
 Modu³ Tcl MapScript.
 
 %prep
-%setup -q -n %{name}_%{version}
+%setup -q
 %patch -p1
 
 %build
@@ -156,7 +156,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README
+%doc README HISTORY.TXT
 %attr(755,root,root) %{_bindir}/*
 
 %files devel

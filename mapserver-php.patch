@@ -38,21 +38,3 @@
  #--------
  
  #if test -n "$PERL_CCDLFLAGS" ; then
---- mapserver_3.5/mapscript/php3/php_mapscript.c.orig	Tue Nov 27 16:39:33 2001
-+++ mapserver_3.5/mapscript/php3/php_mapscript.c	Sat Jun  1 13:58:45 2002
-@@ -431,6 +431,7 @@
- 
- 
- php3_module_entry php3_ms_module_entry = {
-+    STANDARD_MODULE_HEADER,
-     "MapScript", php3_ms_functions, php3_init_mapscript, php3_end_mapscript,
-     NULL, NULL,
- #ifdef ZEND_VERSION
-@@ -438,6 +439,7 @@
- #else
-     php3_info_mapscript,
- #endif
-+    NO_VERSION_YET,
-     STANDARD_MODULE_PROPERTIES 
- };
- 
