@@ -3,7 +3,7 @@ Summary:	Web-enabled mapping application development
 Summary(pl):	Generowanie map poprzez www
 Name:		mapserver
 Version:	3.6.0
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Applications
 Source0:	http://mapserver.gis.umn.edu/dist/%{name}-%{version}.tar.gz
@@ -18,7 +18,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	pdflib-devel
 BuildRequires:	perl-devel
-BuildRequires:	php-devel
+BuildRequires:	php-devel >= 4.2.1
 BuildRequires:	rpm-perlprov
 BuildRequires:	tcl-devel
 BuildRequires:	zlib-devel
