@@ -9,7 +9,7 @@ Source0:	http://mapserver.gis.umn.edu/dist/ms_%{version}.tar.gz
 URL:		http://mapserver.gis.umn.edu/
 BuildRequires:	apache-devel < 2.0.0
 BuildRequires:	apache-devel >= 1.3.0
-BuildRequires:	freetype-devel
+BuildRequires:	freetype-devel >= 2.0.0
 BuildRequires:	gd-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
