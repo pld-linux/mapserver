@@ -1,6 +1,6 @@
---- mapserver_3.5/configure.in.orig	Wed Dec 12 01:56:46 2001
-+++ mapserver_3.5/configure.in	Thu May 30 01:11:20 2002
-@@ -1292,14 +1292,6 @@
+--- mapserver-3.6.4/configure.in.orig	Fri Feb 28 23:37:49 2003
++++ mapserver-3.6.4/configure.in	Fri Feb 28 23:38:46 2003
+@@ -1374,14 +1374,6 @@
      dnl This is a temporary error messgae until we figure the problem with
      dnl PHP4's regex
      dnl
@@ -15,19 +15,19 @@
  
      PHP_REGEX_DIR="$PHP_SRC_DIR/regex"
      PHP_REGEX_INC="-I$PHP_REGEX_DIR"
---- mapserver_3.5/aclocal.m4.orig	Tue Jul 17 23:30:56 2001
-+++ mapserver_3.5/aclocal.m4	Sat Jun  1 13:39:21 2002
+--- mapserver-3.6.4/aclocal.m4.orig	Fri Feb 28 23:38:56 2003
++++ mapserver-3.6.4/aclocal.m4	Fri Feb 28 23:39:30 2003
 @@ -274,13 +274,13 @@
  fi
  
  # if the greps and cuts don't do the job, set these manually
--PERL_CC="`grep ' cc=' perl.out | cut -d, -f1 | cut -d\' -f2`"
--PERL_OPT="`grep ' optimize=' perl.out | cut -d, -f2 | cut -d\' -f2`"
--PERL_CCFLAGS="`grep ' ccflags' perl.out | cut -d, -f1 | cut -d\' -f2`"
--PERL_LD="`grep ' ld=' perl.out | cut -d, -f1 | cut -d\' -f2`"
--PERL_LFLAGS="`grep ' cccdlflags=' perl.out | cut -d, -f1 | cut -d\' -f2`"
--PERL_CCDLFLAGS="`grep ' ccdlflags=' perl.out | cut -d, -f4 | cut -d\' -f2 | sed 's, ,,'`"
--PERL_LDDLFLAGS=`grep ' lddlflags' perl.out | cut -d, -f2 | cut -d\' -f2`
+-PERL_CC="`grep ' cc=' perl.out | cut -d, -f1 | cut -d\' -f2 | grep -v undef`"
+-PERL_OPT="`grep ' optimize=' perl.out | cut -d, -f2 | cut -d\' -f2 | grep -v undef`"
+-PERL_CCFLAGS="`grep ' ccflags' perl.out | cut -d, -f1 | grep cflags | cut -d\' -f2 | grep -v undef` `grep ' ccflags' perl.out | cut -d, -f2 | grep ccflags | cut -d\' -f2 | grep -v undef`"
+-PERL_LD="`grep ' ld=' perl.out | cut -d, -f1 | cut -d\' -f2 | grep -v undef`"
+-PERL_LFLAGS="`grep ' cccdlflags=' perl.out | cut -d, -f1 | cut -d\' -f2 | grep -v undef`"
+-PERL_CCDLFLAGS="`grep ' ccdlflags=' perl.out | cut -d, -f4 | cut -d\' -f2 | sed 's, ,,' | grep -v undef`"
+-PERL_LDDLFLAGS=`grep ' lddlflags' perl.out | cut -d, -f2 | cut -d\' -f2 | grep -v undef`
 +PERL_CC="`perl -V:cc | cut -d\' -f2`"
 +PERL_OPT="`perl -V:optimize | cut -d\' -f2`"
 +PERL_CCFLAGS="`perl -V:ccflags | cut -d\' -f2`"
