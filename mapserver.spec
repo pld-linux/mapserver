@@ -7,6 +7,7 @@ Release:	2
 License:	BSD-like
 Group:		Applications
 Source0:	http://mapserver.gis.umn.edu/dist/%{name}-%{version}.tar.gz
+# Source0-md5:	3b76702c0481fdcf9cdb5622bf50d93c
 Patch0:		%{name}-php.patch
 URL:		http://mapserver.gis.umn.edu/
 BuildRequires:	apache-devel < 2.0.0
