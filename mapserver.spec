@@ -2,8 +2,8 @@
 Summary:	Web-enabled mapping application development
 Summary(pl):	Generowanie map poprzez www
 Name:		mapserver
-Version:	3.6.0
-Release:	4
+Version:	3.6.4
+Release:	1
 License:	BSD-like
 Group:		Applications
 Source0:	http://mapserver.gis.umn.edu/dist/%{name}-%{version}.tar.gz
@@ -23,6 +23,8 @@ BuildRequires:	php-devel >= 4.2.3
 BuildRequires:	rpm-perlprov
 BuildRequires:	tcl-devel
 BuildRequires:	zlib-devel
+BuildRequires:	bison
+Requires:	php-cgi
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -107,8 +109,10 @@ if [ -f %{_pkgconfigdir}/libpng12.pc ] ; then
 fi
 %configure \
 	--with-eppl \
-	--with-apxs=%{_sbindir}/apxs \
 	--with-php=/usr/include/php
+	# --with-apxs=%{_sbindir}/apxs \
+	#       version 3.6.4 requires PHP4 configured as CGI
+
 %{__make} REGEX_OBJ=
 
 cd mapscript/perl
@@ -171,6 +175,7 @@ fi
 %{perl_sitearch}/mapscript.pm
 %dir %{perl_sitearch}/auto/mapscript
 %{perl_sitearch}/auto/mapscript/mapscript.bs
+%{perl_archlib}/perllocal.pod
 %attr(755,root,root) %{perl_sitearch}/auto/mapscript/mapscript.so
 
 %files -n php-mapscript
