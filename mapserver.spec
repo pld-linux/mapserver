@@ -66,7 +66,7 @@ programów u¿ywaj±cych libmap.
 
 %package -n perl-mapscript
 Summary:	Perl MapScript module
-Summary(pl):	Modu³ perla MapScript
+Summary(pl):	Modu³ Perla MapScript
 Group:		Development/Languages/Perl
 %requires_eq	perl
 
@@ -74,7 +74,7 @@ Group:		Development/Languages/Perl
 Perl MapScript module.
 
 %description -n perl-mapscript -l pl
-Modu³ perla MapScript.
+Modu³ Perla MapScript.
 
 %package -n php-mapscript
 Summary:	MapScript module for PHP
