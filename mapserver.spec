@@ -13,6 +13,7 @@ URL:		http://mapserver.gis.umn.edu/
 BuildRequires:	apache-devel < 2.0.0
 BuildRequires:	apache-devel >= 1.3.0
 BuildRequires:	autoconf
+BuildRequires:	bison
 BuildRequires:	freetype-devel >= 2.0.0
 BuildRequires:	gd-devel
 BuildRequires:	libjpeg-devel
@@ -24,7 +25,6 @@ BuildRequires:	php-devel >= 4.2.3
 BuildRequires:	rpm-perlprov
 BuildRequires:	tcl-devel
 BuildRequires:	zlib-devel
-BuildRequires:	bison
 Requires:	php-cgi
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -105,9 +105,6 @@ Modu³ Tcl MapScript.
 
 %build
 %{__autoconf}
-if [ -f %{_pkgconfigdir}/libpng12.pc ] ; then
-        CPPFLAGS="`pkg-config libpng12 --cflags`"; export CPPFLAGS
-fi
 %configure \
 	--with-eppl \
 	--with-php=/usr/include/php
