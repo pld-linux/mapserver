@@ -1,3 +1,4 @@
+#%%define	apxs	/usr/sbin/apxs1
 %include	/usr/lib/rpm/macros.perl
 Summary:	Web-enabled mapping application development
 Summary(pl):	Generowanie map poprzez WWW
@@ -10,8 +11,7 @@ Source0:	http://mapserver.gis.umn.edu/dist/%{name}-%{version}.tar.gz
 # Source0-md5:	3b76702c0481fdcf9cdb5622bf50d93c
 Patch0:		%{name}-php.patch
 URL:		http://mapserver.gis.umn.edu/
-BuildRequires:	apache-devel < 2.0.0
-BuildRequires:	apache-devel >= 1.3.0
+BuildRequires:	apache1-devel >= 1.3.0
 BuildRequires:	autoconf
 BuildRequires:	bison
 BuildRequires:	freetype-devel >= 2.0.0
@@ -108,8 +108,8 @@ Modu³ Tcl MapScript.
 %configure \
 	--with-eppl \
 	--with-php=/usr/include/php
-	# --with-apxs=%{_sbindir}/apxs \
-	#       version 3.6.4 requires PHP4 configured as CGI
+#	--with-apxs=%{apxs}
+#       version 3.6.4 requires PHP4 configured as CGI
 
 %{__make} REGEX_OBJ=
 
