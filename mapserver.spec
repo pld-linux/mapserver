@@ -11,6 +11,7 @@ Patch0:		%{name}-php.patch
 URL:		http://mapserver.gis.umn.edu/
 BuildRequires:	apache-devel < 2.0.0
 BuildRequires:	apache-devel >= 1.3.0
+BuildRequires:	autoconf
 BuildRequires:	freetype-devel >= 2.0.0
 BuildRequires:	gd-devel
 BuildRequires:	libjpeg-devel
@@ -100,7 +101,7 @@ Modu³ Tcl MapScript.
 %patch -p1
 
 %build
-autoconf
+%{__autoconf}
 if [ -f %{_pkgconfigdir}/libpng12.pc ] ; then
         CPPFLAGS="`pkg-config libpng12 --cflags`"; export CPPFLAGS
 fi
