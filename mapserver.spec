@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	Web-enabled mapping application development
-Summary(pl):	Generowanie map poprzez www
+Summary(pl):	Generowanie map poprzez WWW
 Name:		mapserver
 Version:	3.6.4
 Release:	2
