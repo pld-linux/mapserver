@@ -37,7 +37,6 @@ BuildRequires:	geos-devel >= 2.0.0
 BuildRequires:	proj-devel
 BuildRequires:	postgis >= 1.0.0
 BuildRequires:	gdal-devel >= 1.3.0
-Requires:	php-cgi
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
