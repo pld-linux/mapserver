@@ -1,17 +1,25 @@
+#
+# TODO:
+# - add conditional builds for all mapscript variants
+# - fix tcl mapscript (maybe rel > 4.6.1 will include pre-swig'ed mapscript_wrap.c)
+#
+# Contitional build:
+%bcond_with	ms_tcl			# Tcl mapscript module
+
 #%%define	apxs	/usr/sbin/apxs1
 %include	/usr/lib/rpm/macros.perl
 Summary:	Web-enabled mapping application development
 Summary(pl):	Generowanie map poprzez WWW
 Name:		mapserver
-Version:	3.6.4
-Release:	2
+Version:	4.6.1
+Release:	1
 License:	BSD-like
 Group:		Applications
-Source0:	http://mapserver.gis.umn.edu/dist/%{name}-%{version}.tar.gz
-# Source0-md5:	3b76702c0481fdcf9cdb5622bf50d93c
-Patch0:		%{name}-php.patch
+Source0:	http://cvs.gis.umn.edu/dist/%{name}-%{version}.tar.gz
+# Source0-md5:	4efff8a20a44bab41b8d14451f21d6ee
+Patch0:		%{name}-fastcgi-include.patch
 URL:		http://mapserver.gis.umn.edu/
-BuildRequires:	apache1-devel >= 1.3.0
+BuildRequires:	apache-devel
 BuildRequires:	autoconf
 BuildRequires:	bison
 BuildRequires:	freetype-devel >= 2.0.0
@@ -23,8 +31,12 @@ BuildRequires:	pdflib-devel
 BuildRequires:	perl-devel
 BuildRequires:	php-devel >= 4.2.3
 BuildRequires:	rpm-perlprov
-BuildRequires:	tcl-devel
+%{?with_ms_tcl:BuildRequires:	tcl-devel}
 BuildRequires:	zlib-devel
+BuildRequires:	geos-devel >= 2.0.0
+BuildRequires:	proj-devel
+BuildRequires:	postgis >= 1.0.0
+BuildRequires:	gdal-devel >= 1.3.0
 Requires:	php-cgi
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -88,6 +100,7 @@ MapScript extension module for PHP.
 %description -n php-mapscript -l pl
 Modu³ MapScript dla PHP.
 
+%if %{with ms_tcl}
 %package -n tcl-mapscript
 Summary:	Tcl MapScript module
 Summary(pl):	Modu³ Tcl MapScript
@@ -98,6 +111,7 @@ Tcl MapScript module.
 
 %description -n tcl-mapscript -l pl
 Modu³ Tcl MapScript.
+%endif
 
 %prep
 %setup -q
@@ -107,9 +121,19 @@ Modu³ Tcl MapScript.
 %{__autoconf}
 %configure \
 	--with-eppl \
-	--with-php=/usr/include/php
-#	--with-apxs=%{apxs}
-#       version 3.6.4 requires PHP4 configured as CGI
+	--with-php=/usr/include/php \
+	--with-proj \
+	--with-geos \
+	--with-gdal \
+	--with-postgis \
+	--with-ogr \
+	--with-wfs \
+	--with-wcs \
+	--with-wmsclient \
+	--with-fastcgi \
+	--with-ming \
+	--with-pdf \
+	--with-wfsclient
 
 %{__make} REGEX_OBJ=
 
@@ -118,13 +142,15 @@ cd mapscript/perl
 	INSTALLDIRS=vendor
 %{__make} \
 	OPTIMIZE="%{rpmcflags}"
-
+%if %{with ms_tcl}
+# tcl currently disables - swig problems and mapscript_wrap.c not included!
 cd ../tcl
+touch ../../perlvars
 ./configure --with-tcl=/usr
 %{__make} \
 	TCL_CC="%{__cc} %{rpmcflags} -pipe" \
 	TCL_SHLIB_CC="%{__cc} %{rpmcflags} -pipe -shared"
-
+%endif
 # mapscript/python - TODO? but no Makefile nor README...
 
 %install
@@ -143,9 +169,11 @@ cd mapscript/perl
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%if %{with ms_tcl}
 cd ../tcl
 %{__make} install \
 	TCL_EXEC_PREFIX=$RPM_BUILD_ROOT%{_prefix}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -182,6 +210,7 @@ fi
 %doc mapscript/php3/README mapscript/php3/examples/*.phtml
 %attr(755,root,root) %{_libdir}/php/php_mapscript.so
 
+%if %{with ms_tcl}
 %files -n tcl-mapscript
 %defattr(644,root,root,755)
 %doc mapscript/tcl/README mapscript/tcl/examples/*.tcl
@@ -189,3 +218,4 @@ fi
 %attr(755,root,root) %{_libdir}/MapscriptTcl1.1/*.so
 %{_libdir}/MapscriptTcl1.1/*.tcl
 %{_libdir}/MapscriptTcl1.1/*.html
+%endif
