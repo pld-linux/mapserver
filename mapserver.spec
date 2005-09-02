@@ -5,7 +5,7 @@
 #
 # Contitional build:
 %bcond_with	ms_tcl			# Tcl mapscript module
-
+#
 #%%define	apxs	/usr/sbin/apxs1
 %include	/usr/lib/rpm/macros.perl
 Summary:	Web-enabled mapping application development
@@ -99,7 +99,6 @@ MapScript extension module for PHP.
 %description -n php-mapscript -l pl
 Modu³ MapScript dla PHP.
 
-%if %{with ms_tcl}
 %package -n tcl-mapscript
 Summary:	Tcl MapScript module
 Summary(pl):	Modu³ Tcl MapScript
@@ -110,7 +109,6 @@ Tcl MapScript module.
 
 %description -n tcl-mapscript -l pl
 Modu³ Tcl MapScript.
-%endif
 
 %prep
 %setup -q
@@ -134,7 +132,8 @@ Modu³ Tcl MapScript.
 	--with-pdf \
 	--with-wfsclient
 
-%{__make} REGEX_OBJ=
+%{__make} \
+	REGEX_OBJ=
 
 cd mapscript/perl
 %{__perl} Makefile.PL \
@@ -145,7 +144,8 @@ cd mapscript/perl
 # tcl currently disables - swig problems and mapscript_wrap.c not included!
 cd ../tcl
 touch ../../perlvars
-./configure --with-tcl=/usr
+./configure \
+	--with-tcl=/usr
 %{__make} \
 	TCL_CC="%{__cc} %{rpmcflags} -pipe" \
 	TCL_SHLIB_CC="%{__cc} %{rpmcflags} -pipe -shared"
@@ -164,13 +164,11 @@ install map.h $RPM_BUILD_ROOT%{_includedir}/mapserver
 
 install mapscript/php3/php_mapscript.so $RPM_BUILD_ROOT%{_libdir}/php
 
-cd mapscript/perl
-%{__make} install \
+%{__make} -C mapscript/perl install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %if %{with ms_tcl}
-cd ../tcl
-%{__make} install \
+%{__make} -C mapscript/tcl install \
 	TCL_EXEC_PREFIX=$RPM_BUILD_ROOT%{_prefix}
 %endif
 
