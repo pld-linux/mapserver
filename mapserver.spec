@@ -22,21 +22,23 @@ URL:		http://mapserver.gis.umn.edu/
 BuildRequires:	apache-devel
 BuildRequires:	autoconf
 BuildRequires:	bison
+BuildRequires:	curl-devel >= 7.10.1
+BuildRequires:	fcgi-devel
 BuildRequires:	freetype-devel >= 2.0.0
-BuildRequires:	gd-devel
+BuildRequires:	gd-devel >= 2.0.16
+BuildRequires:	gdal-devel >= 1.3.0
+BuildRequires:	geos-devel >= 2.0.0
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
+BuildRequires:	ming-devel
 BuildRequires:	pdflib-devel
 BuildRequires:	perl-devel
 BuildRequires:	php-devel >= 4.2.3
+BuildRequires:	proj-devel >= 4
 BuildRequires:	rpm-perlprov
 %{?with_ms_tcl:BuildRequires:	tcl-devel}
 BuildRequires:	zlib-devel
-BuildRequires:	geos-devel >= 2.0.0
-BuildRequires:	proj-devel
-BuildRequires:	postgis >= 1.0.0
-BuildRequires:	gdal-devel >= 1.3.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -199,7 +201,6 @@ fi
 %{perl_vendorarch}/mapscript.pm
 %dir %{perl_vendorarch}/auto/mapscript
 %{perl_vendorarch}/auto/mapscript/mapscript.bs
-%{perl_archlib}/perllocal.pod
 %attr(755,root,root) %{perl_vendorarch}/auto/mapscript/mapscript.so
 
 %files -n php-mapscript
