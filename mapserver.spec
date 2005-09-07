@@ -20,7 +20,6 @@ Source0:	http://cvs.gis.umn.edu/dist/%{name}-%{version}.tar.gz
 Patch0:		%{name}-fastcgi-include.patch
 URL:		http://mapserver.gis.umn.edu/
 BuildRequires:	apache-devel
-BuildRequires:	autoconf
 BuildRequires:	bison
 BuildRequires:	curl-devel >= 7.10.1
 BuildRequires:	fcgi-devel
