@@ -11,12 +11,12 @@
 Summary:	Web-enabled mapping application development
 Summary(pl):	Generowanie map poprzez WWW
 Name:		mapserver
-Version:	4.6.1
-Release:	2
+Version:	4.8.2
+Release:	0.1
 License:	BSD-like
 Group:		Applications
 Source0:	http://cvs.gis.umn.edu/dist/%{name}-%{version}.tar.gz
-# Source0-md5:	4efff8a20a44bab41b8d14451f21d6ee
+# Source0-md5:	b8ba3264a062b911218bb458fa45d812
 Patch0:		%{name}-fastcgi-include.patch
 URL:		http://mapserver.gis.umn.edu/
 BuildRequires:	apache-devel
