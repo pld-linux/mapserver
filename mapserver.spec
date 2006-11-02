@@ -37,7 +37,7 @@ BuildRequires:	perl-devel
 BuildRequires:	php-devel >= 3:4.2.3
 BuildRequires:	proj-devel >= 4
 BuildRequires:	rpm-perlprov
-BuildRequires:	rpmbuild(macros) >= 1.238
+BuildRequires:	rpmbuild(macros) >= 1.322
 %{?with_ms_tcl:BuildRequires:	tcl-devel}
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
