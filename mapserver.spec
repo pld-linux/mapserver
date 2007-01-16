@@ -37,7 +37,7 @@ BuildRequires:	perl-devel
 BuildRequires:	php-devel >= 3:4.2.3
 BuildRequires:	proj-devel >= 4
 BuildRequires:	rpm-perlprov
-BuildRequires:	rpmbuild(macros) >= 1.322
+BuildRequires:	rpmbuild(macros) >= 1.344
 %{?with_ms_tcl:BuildRequires:	tcl-devel}
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -95,6 +95,7 @@ Summary:	MapScript module for PHP
 Summary(pl):	Modu³ MapScript dla PHP
 Group:		Libraries
 %{?requires_php_extension}
+Requires:	php-common >= 4:5.0.4
 
 %description -n php-mapscript
 MapScript extension module for PHP.
@@ -121,7 +122,7 @@ Modu³ Tcl MapScript.
 %{__autoconf}
 %configure \
 	--with-eppl \
-	--with-php=/usr/include/php \
+	--with-php=$(php-config --include-dir) \
 	--with-proj \
 	--with-geos \
 	--with-gdal \
@@ -157,7 +158,7 @@ touch ../../perlvars
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/php,%{_sysconfdir}/php/conf.d,%{_includedir}/mapserver}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/php,%{php_sysconfdir}/conf.d,%{_includedir}/mapserver}
 
 install legend mapserv scalebar tile4ms \
 	shp2img shp2pdf shptree shptreetst sortshp \
@@ -165,8 +166,8 @@ install legend mapserv scalebar tile4ms \
 install libmap.a $RPM_BUILD_ROOT%{_libdir}
 install map.h $RPM_BUILD_ROOT%{_includedir}/mapserver
 
-install mapscript/php3/php_mapscript.so $RPM_BUILD_ROOT%{_libdir}/php
-cat <<'EOF' > $RPM_BUILD_ROOT%{_sysconfdir}/php/conf.d/mapscript.ini
+install mapscript/php3/php_mapscript.so $RPM_BUILD_ROOT%{php_extensiondir}
+cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/mapscript.ini
 ; Enable mapscript extension module
 extension=php_mapscript.so
 EOF
@@ -183,13 +184,11 @@ EOF
 rm -rf $RPM_BUILD_ROOT
 
 %post -n php-mapscript
-[ ! -f /etc/apache/conf.d/??_mod_php.conf ] || %service -q apache restart
-[ ! -f /etc/httpd/httpd.conf/??_mod_php.conf ] || %service -q httpd restart
+%php_webserver_restart
 
 %postun -n php-mapscript
 if [ "$1" = 0 ]; then
-	[ ! -f /etc/apache/conf.d/??_mod_php.conf ] || %service -q apache restart
-	[ ! -f /etc/httpd/httpd.conf/??_mod_php.conf ] || %service -q httpd restart
+	%php_webserver_restart
 fi
 
 %triggerpostun -n php-mapscript -- php-mapscript < 4.6.1-1.1
@@ -216,8 +215,8 @@ fi
 %files -n php-mapscript
 %defattr(644,root,root,755)
 %doc mapscript/php3/README mapscript/php3/examples/*.phtml
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/php/conf.d/mapscript.ini
-%attr(755,root,root) %{_libdir}/php/php_mapscript.so
+%config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/mapscript.ini
+%attr(755,root,root) %{php_extensiondir}/php/php_mapscript.so
 
 %if %{with ms_tcl}
 %files -n tcl-mapscript
