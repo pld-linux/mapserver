@@ -9,7 +9,7 @@
 #%%define	apxs	/usr/sbin/apxs1
 %include	/usr/lib/rpm/macros.perl
 Summary:	Web-enabled mapping application development
-Summary(pl):	Generowanie map poprzez WWW
+Summary(pl.UTF-8):   Generowanie map poprzez WWW
 Name:		mapserver
 Version:	4.10.0
 Release:	0.1
@@ -53,46 +53,46 @@ with collision avoidance, logical and thematic classifications, and
 on-the-fly projection of raster and vector data. The application can
 also access other WMS servers as a cascading map server.
 
-%description -l pl
-MapServer to narzÍdzie do tworzenia aplikacji z mapami dostÍpnymi
-przez WWW bazuj±cych na CGI. Przetwarza zdefiniowane przez uøytkownika
-pliki konfiguracyjne i wzorce, pozwalaj±c na tworzenie duøego zakresu
+%description -l pl.UTF-8
+MapServer to narzƒôdzie do tworzenia aplikacji z mapami dostƒôpnymi
+przez WWW bazujƒÖcych na CGI. Przetwarza zdefiniowane przez u≈ºytkownika
+pliki konfiguracyjne i wzorce, pozwalajƒÖc na tworzenie du≈ºego zakresu
 aplikacji, w tym interaktywne mapy oraz definicje i przetwarzanie
-zapytaÒ przestrzennych. Obs≥uguje kilka formatÛw danych. Podstawowe
-moøliwo∂ci to renderowanie map w zaleøno∂ci od skali, automatyczny
-suwak skaluj±cy i tworzenie legendy, nanoszenie nazw z unikaniem
+zapyta≈Ñ przestrzennych. Obs≈Çuguje kilka format√≥w danych. Podstawowe
+mo≈ºliwo≈õci to renderowanie map w zale≈ºno≈õci od skali, automatyczny
+suwak skalujƒÖcy i tworzenie legendy, nanoszenie nazw z unikaniem
 kolizji, klasyfikacja logiczna i tematyczna oraz tworzone w locie
-rzuty danych rastrowych i wektorowych. Aplikacja moøe takøe korzystaÊ
-z innych serwerÛw WMS jako kaskadowy serwer map.
+rzuty danych rastrowych i wektorowych. Aplikacja mo≈ºe tak≈ºe korzystaƒá
+z innych serwer√≥w WMS jako kaskadowy serwer map.
 
 %package devel
 Summary:	MapServer development package
-Summary(pl):	Pakiet programistyczny MapServer
+Summary(pl.UTF-8):   Pakiet programistyczny MapServer
 Group:		Development/Libraries
 
 %description devel
 This package contains static library and header file for developing
 programs that use libmap.
 
-%description devel -l pl
-Ten pakiet zawiera bibliotekÍ statyczn± i plik nag≥Ûwkowy do tworzenia
-programÛw uøywaj±cych libmap.
+%description devel -l pl.UTF-8
+Ten pakiet zawiera bibliotekƒô statycznƒÖ i plik nag≈Ç√≥wkowy do tworzenia
+program√≥w u≈ºywajƒÖcych libmap.
 
 %package -n perl-mapscript
 Summary:	Perl MapScript module
-Summary(pl):	Modu≥ Perla MapScript
+Summary(pl.UTF-8):   Modu≈Ç Perla MapScript
 Group:		Development/Languages/Perl
 %requires_eq	perl
 
 %description -n perl-mapscript
 Perl MapScript module.
 
-%description -n perl-mapscript -l pl
-Modu≥ Perla MapScript.
+%description -n perl-mapscript -l pl.UTF-8
+Modu≈Ç Perla MapScript.
 
 %package -n php-mapscript
 Summary:	MapScript module for PHP
-Summary(pl):	Modu≥ MapScript dla PHP
+Summary(pl.UTF-8):   Modu≈Ç MapScript dla PHP
 Group:		Libraries
 %{?requires_php_extension}
 Requires:	php-common >= 4:5.0.4
@@ -100,19 +100,19 @@ Requires:	php-common >= 4:5.0.4
 %description -n php-mapscript
 MapScript extension module for PHP.
 
-%description -n php-mapscript -l pl
-Modu≥ MapScript dla PHP.
+%description -n php-mapscript -l pl.UTF-8
+Modu≈Ç MapScript dla PHP.
 
 %package -n tcl-mapscript
 Summary:	Tcl MapScript module
-Summary(pl):	Modu≥ Tcl MapScript
+Summary(pl.UTF-8):   Modu≈Ç Tcl MapScript
 Group:		Development/Languages/Tcl
 
 %description -n tcl-mapscript
 Tcl MapScript module.
 
-%description -n tcl-mapscript -l pl
-Modu≥ Tcl MapScript.
+%description -n tcl-mapscript -l pl.UTF-8
+Modu≈Ç Tcl MapScript.
 
 %prep
 %setup -q
