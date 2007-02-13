@@ -9,7 +9,7 @@
 #%%define	apxs	/usr/sbin/apxs1
 %include	/usr/lib/rpm/macros.perl
 Summary:	Web-enabled mapping application development
-Summary(pl.UTF-8):   Generowanie map poprzez WWW
+Summary(pl.UTF-8):	Generowanie map poprzez WWW
 Name:		mapserver
 Version:	4.10.0
 Release:	0.1
@@ -67,7 +67,7 @@ z innych serwerów WMS jako kaskadowy serwer map.
 
 %package devel
 Summary:	MapServer development package
-Summary(pl.UTF-8):   Pakiet programistyczny MapServer
+Summary(pl.UTF-8):	Pakiet programistyczny MapServer
 Group:		Development/Libraries
 
 %description devel
@@ -80,7 +80,7 @@ programów używających libmap.
 
 %package -n perl-mapscript
 Summary:	Perl MapScript module
-Summary(pl.UTF-8):   Moduł Perla MapScript
+Summary(pl.UTF-8):	Moduł Perla MapScript
 Group:		Development/Languages/Perl
 %requires_eq	perl
 
@@ -92,7 +92,7 @@ Moduł Perla MapScript.
 
 %package -n php-mapscript
 Summary:	MapScript module for PHP
-Summary(pl.UTF-8):   Moduł MapScript dla PHP
+Summary(pl.UTF-8):	Moduł MapScript dla PHP
 Group:		Libraries
 %{?requires_php_extension}
 Requires:	php-common >= 4:5.0.4
@@ -105,7 +105,7 @@ Moduł MapScript dla PHP.
 
 %package -n tcl-mapscript
 Summary:	Tcl MapScript module
-Summary(pl.UTF-8):   Moduł Tcl MapScript
+Summary(pl.UTF-8):	Moduł Tcl MapScript
 Group:		Development/Languages/Tcl
 
 %description -n tcl-mapscript
