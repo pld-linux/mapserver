@@ -11,12 +11,12 @@
 Summary:	Web-enabled mapping application development
 Summary(pl.UTF-8):	Generowanie map poprzez WWW
 Name:		mapserver
-Version:	4.10.0
+Version:	4.10.2
 Release:	0.1
 License:	BSD-like
 Group:		Applications
-Source0:	http://cvs.gis.umn.edu/dist/%{name}-%{version}.tar.gz
-# Source0-md5:	4668bbd017c20c251e962a5cd09c8f31
+Source0:	http://download.osgeo.org/mapserver/%{name}-%{version}.tar.gz
+# Source0-md5:	5e36e2d788599505590501c981eb44a7
 Patch0:		%{name}-fastcgi-include.patch
 URL:		http://mapserver.gis.umn.edu/
 BuildRequires:	apache-devel
@@ -216,7 +216,7 @@ fi
 %defattr(644,root,root,755)
 %doc mapscript/php3/README mapscript/php3/examples/*.phtml
 %config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/mapscript.ini
-%attr(755,root,root) %{php_extensiondir}/php/php_mapscript.so
+%attr(755,root,root) %{php_extensiondir}/php_mapscript.so
 
 %if %{with ms_tcl}
 %files -n tcl-mapscript
