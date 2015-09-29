@@ -1,0 +1,9 @@
+--- mapserver-7.0.0/cmake/FindFCGI.cmake.orig	2015-07-24 09:59:36.000000000 +0200
++++ mapserver-7.0.0/cmake/FindFCGI.cmake	2015-09-14 11:59:03.000000000 +0200
+@@ -1,5 +1,5 @@
+ # Look for the header file.
+-find_path(FCGI_INCLUDE_DIR NAMES fastcgi.h)
++find_path(FCGI_INCLUDE_DIR NAMES fastcgi.h HINTS /usr/include/fastcgi )
+ 
+ # Look for the library.
+ find_library(FCGI_LIBRARY NAMES fcgi libfcgi)

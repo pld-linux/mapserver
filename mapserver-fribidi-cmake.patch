@@ -1,0 +1,24 @@
+diff -uNdr mapserver-7.0.0.orig/CMakeLists.txt mapserver-7.0.0/CMakeLists.txt
+--- mapserver-7.0.0.orig/CMakeLists.txt	2015-07-24 09:59:36.000000000 +0200
++++ mapserver-7.0.0/CMakeLists.txt	2015-09-14 14:21:32.000000000 +0200
+@@ -356,7 +356,7 @@
+   if(NOT FRIBIDI_FOUND)
+     report_optional_not_found(FRIBIDI)
+  else(NOT FRIBIDI_FOUND)
+-    include_directories(${FRIBIDI_INCLUDE_DIR})
++    include_directories(${FRIBIDI_INCLUDE_DIRS})
+     ms_link_libraries( ${FRIBIDI_LIBRARY})
+     set (USE_FRIBIDI 1)
+     if(FRIBIDI_LEGACY)
+diff -uNdr mapserver-7.0.0.orig/cmake/FindFriBiDi.cmake mapserver-7.0.0/cmake/FindFriBiDi.cmake
+--- mapserver-7.0.0.orig/cmake/FindFriBiDi.cmake	2015-07-24 09:59:36.000000000 +0200
++++ mapserver-7.0.0/cmake/FindFriBiDi.cmake	2015-09-14 14:21:07.000000000 +0200
+@@ -23,7 +23,7 @@
+    HINTS ${PC_FRIBIDI_LIBDIR} ${PC_FRIBIDI_LIBRARY_DIRS}
+ )
+ 
+-set(FRIBIDI_INCLUDE_DIRS ${FRIBIDI_INCLUDE_DIR})
++set(FRIBIDI_INCLUDE_DIRS "${FRIBIDI_INCLUDE_DIR} ${PC_FRIBIDI_INCLUDE_DIRS}")
+ set(FRIBIDI_LIBRARIES ${FRIBIDI_LIBRARY})
+ include(FindPackageHandleStandardArgs)
+ find_package_handle_standard_args(FRIBIDI DEFAULT_MSG FRIBIDI_LIBRARY FRIBIDI_INCLUDE_DIR)

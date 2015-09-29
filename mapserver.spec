@@ -1,9 +1,13 @@
 #
 # TODO:
 # - add conditional builds for all mapscript variants
-# - fix tcl mapscript (maybe rel > 4.6.1 will include pre-swig'ed mapscript_wrap.c)
+# - test php mapscript
+# - fix perl mapscript
+# - fix tcl mapscript
 #
 # Contitional build:
+%bcond_with	ms_php			# PHP mapscript module
+%bcond_with	ms_perl			# Perl mapscript module
 %bcond_with	ms_tcl			# Tcl mapscript module
 #
 #%%define	apxs	/usr/sbin/apxs1
@@ -11,35 +15,45 @@
 Summary:	Web-enabled mapping application development
 Summary(pl.UTF-8):	Generowanie map poprzez WWW
 Name:		mapserver
-Version:	4.10.2
-Release:	0.1
+Version:	7.0.0
+Release:	0.6
 License:	BSD-like
 Group:		Applications
 Source0:	http://download.osgeo.org/mapserver/%{name}-%{version}.tar.gz
-# Source0-md5:	5e36e2d788599505590501c981eb44a7
-Patch0:		%{name}-fastcgi-include.patch
-URL:		http://mapserver.gis.umn.edu/
-BuildRequires:	apache-devel
-BuildRequires:	autoconf
-BuildRequires:	bison
-BuildRequires:	curl-devel >= 7.10.1
-BuildRequires:	fcgi-devel
-BuildRequires:	freetype-devel >= 2.0.0
-BuildRequires:	gd-devel >= 2.0.16
-BuildRequires:	gdal-devel >= 1.3.0
-BuildRequires:	geos-devel >= 2.0.0
+# Source0-md5:	e39360006e668ae2ba3560ed37a43e9b
+#git diff rel-7-0-0..>mapserver-branch.patch
+Patch0:		%{name}-branch.patch
+Patch1:		%{name}-fastcgi-cmake.patch
+Patch2:		%{name}-fribidi-cmake.patch
+URL:		http://mapserver.org/
+BuildRequires:	rpmbuild(macros) >= 1.344
+BuildRequires:	cmake
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
-BuildRequires:	libtiff-devel
-BuildRequires:	ming-devel
-BuildRequires:	pdflib-devel
-BuildRequires:	perl-devel
-BuildRequires:	php-devel >= 3:4.2.3
+BuildRequires:	freetype-devel >= 2.0.0
+BuildRequires:	gdal-devel >= 1.3.0
+BuildRequires:	giflib-devel
+BuildRequires:	fribidi-devel
+BuildRequires:	harfbuzz-devel
 BuildRequires:	proj-devel >= 4
-BuildRequires:	rpm-perlprov
-BuildRequires:	rpmbuild(macros) >= 1.344
-%{?with_ms_tcl:BuildRequires:	tcl-devel}
-BuildRequires:	zlib-devel
+BuildRequires:	fcgi-devel
+%{?with_ms_php:BuildRequires:	php-devel}
+%if %{with ms_perl}
+BuildRequires:	perl-devel
+BuildRequires:	swig-perl
+%endif
+
+#BuildRequires:	apache-devel
+#BuildRequires:	bison
+#BuildRequires:	curl-devel >= 7.10.1
+#BuildRequires:	gd-devel >= 2.0.16
+#BuildRequires:	geos-devel >= 2.0.0
+#BuildRequires:	libtiff-devel
+#BuildRequires:	ming-devel
+#BuildRequires:	pdflib-devel
+#BuildRequires:	rpm-perlprov
+#%{?with_ms_tcl:BuildRequires:	tcl-devel}
+#BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -82,7 +96,7 @@ programów używających libmap.
 Summary:	Perl MapScript module
 Summary(pl.UTF-8):	Moduł Perla MapScript
 Group:		Development/Languages/Perl
-%requires_eq	perl
+#%requires_eq	perl
 
 %description -n perl-mapscript
 Perl MapScript module.
@@ -117,71 +131,42 @@ Moduł Tcl MapScript.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
-%{__autoconf}
-%configure \
-	--with-eppl \
-	--with-php=$(php-config --include-dir) \
-	--with-proj \
-	--with-geos \
-	--with-gdal \
-	--with-postgis \
-	--with-ogr \
-	--with-wfs \
-	--with-wcs \
-	--with-wmsclient \
-	--with-fastcgi \
-	--with-ming \
-	--with-pdf \
-	--with-wfsclient
 
-%{__make} \
-	REGEX_OBJ=
-
-cd mapscript/perl
-%{__perl} Makefile.PL \
-	INSTALLDIRS=vendor
-%{__make} \
-	OPTIMIZE="%{rpmcflags}"
-%if %{with ms_tcl}
-# tcl currently disables - swig problems and mapscript_wrap.c not included!
-cd ../tcl
-touch ../../perlvars
-./configure \
-	--with-tcl=/usr
-%{__make} \
-	TCL_CC="%{__cc} %{rpmcflags} -pipe" \
-	TCL_SHLIB_CC="%{__cc} %{rpmcflags} -pipe -shared"
-%endif
-# mapscript/python - TODO? but no Makefile nor README...
+install -d build
+cd build
+%cmake \
+	-DINSTALL_LIB_DIR=%{_libdir} \
+	-DINSTALL_BIN_DIR=%{_bindir} \
+	-DINSTALL_INCLUDE_DIR=%{_includedir} \
+	-DWITH_PHP=0%{?with_ms_php:1} \
+	-DWITH_PERL=0%{?with_ms_perl:1} \
+        ../
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/php,%{php_sysconfdir}/conf.d,%{_includedir}/mapserver}
+install -d $RPM_BUILD_ROOT
 
-install legend mapserv scalebar tile4ms \
-	shp2img shp2pdf shptree shptreetst sortshp \
-	$RPM_BUILD_ROOT%{_bindir}
-install libmap.a $RPM_BUILD_ROOT%{_libdir}
-install map.h $RPM_BUILD_ROOT%{_includedir}/mapserver
+%{__make} -C build install \
+	DESTDIR=$RPM_BUILD_ROOT
 
-install mapscript/php3/php_mapscript.so $RPM_BUILD_ROOT%{php_extensiondir}
+%if %{with ms_php}
+install -d $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d
 cat <<'EOF' > $RPM_BUILD_ROOT%{php_sysconfdir}/conf.d/mapscript.ini
 ; Enable mapscript extension module
 extension=php_mapscript.so
 EOF
-
-%{__make} -C mapscript/perl install \
-	DESTDIR=$RPM_BUILD_ROOT
-
-%if %{with ms_tcl}
-%{__make} -C mapscript/tcl install \
-	TCL_EXEC_PREFIX=$RPM_BUILD_ROOT%{_prefix}
 %endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post	-p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %post -n php-mapscript
 %php_webserver_restart
@@ -191,32 +176,37 @@ if [ "$1" = 0 ]; then
 	%php_webserver_restart
 fi
 
-%triggerpostun -n php-mapscript -- php-mapscript < 4.6.1-1.1
-/usr/sbin/php-module-install remove php_mapscript /etc/php/php.ini
-
 %files
 %defattr(644,root,root,755)
 %doc README HISTORY.TXT
 %attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/libmapserver.so.*.*.*
+%ghost %{_libdir}/libmapserver.so.2
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libmapserver.so
 %{_includedir}/mapserver
+%dir %{_datadir}/mapserver
+%{_datadir}/mapserver/cmake
 
+%if %{with ms_perl}
 %files -n perl-mapscript
 %defattr(644,root,root,755)
 %doc mapscript/perl/examples/*.pl
-%{perl_vendorarch}/mapscript.pm
-%dir %{perl_vendorarch}/auto/mapscript
-%{perl_vendorarch}/auto/mapscript/mapscript.bs
-%attr(755,root,root) %{perl_vendorarch}/auto/mapscript/mapscript.so
+#%{perl_vendorarch}/mapscript.pm
+#%dir %{perl_vendorarch}/auto/mapscript
+#%{perl_vendorarch}/auto/mapscript/mapscript.bs
+#%attr(755,root,root) %{perl_vendorarch}/auto/mapscript/mapscript.so
+%endif
 
+%if %{with ms_php}
 %files -n php-mapscript
 %defattr(644,root,root,755)
-%doc mapscript/php3/README mapscript/php3/examples/*.phtml
+%doc mapscript/php/README mapscript/php/examples/*.phtml
 %config(noreplace) %verify(not md5 mtime size) %{php_sysconfdir}/conf.d/mapscript.ini
 %attr(755,root,root) %{php_extensiondir}/php_mapscript.so
+%endif
 
 %if %{with ms_tcl}
 %files -n tcl-mapscript
