@@ -11,7 +11,6 @@
 %bcond_with	ms_tcl			# Tcl mapscript module
 #
 #%%define	apxs	/usr/sbin/apxs1
-%include	/usr/lib/rpm/macros.perl
 Summary:	Web-enabled mapping application development
 Summary(pl.UTF-8):	Generowanie map poprzez WWW
 Name:		mapserver
