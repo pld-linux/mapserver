@@ -14,14 +14,12 @@
 Summary:	Web-enabled mapping application development
 Summary(pl.UTF-8):	Generowanie map poprzez WWW
 Name:		mapserver
-Version:	7.0.0
-Release:	0.6
+Version:	7.6.1
+Release:	0.1
 License:	BSD-like
 Group:		Applications
 Source0:	http://download.osgeo.org/mapserver/%{name}-%{version}.tar.gz
-# Source0-md5:	e39360006e668ae2ba3560ed37a43e9b
-#git diff rel-7-0-0..>mapserver-branch.patch
-Patch0:		%{name}-branch.patch
+# Source0-md5:	204ae6e90e25601656756b2e24a73f72
 Patch1:		%{name}-fastcgi-cmake.patch
 Patch2:		%{name}-fribidi-cmake.patch
 URL:		http://mapserver.org/
@@ -129,7 +127,6 @@ Moduł Tcl MapScript.
 
 %prep
 %setup -q
-%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 
@@ -177,7 +174,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc README HISTORY.TXT
+%doc README.rst HISTORY.TXT
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/libmapserver.so.*.*.*
 %ghost %{_libdir}/libmapserver.so.2
